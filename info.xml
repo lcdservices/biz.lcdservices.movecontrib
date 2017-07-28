@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<extension key="biz.lcdservices.movecontrib" type="module">
+  <file>movecontrib</file>
+  <name>Move Contribution</name>
+  <description>Adds an action to the contribution tab listing allowing the user to move a contribution to a different contact record.</description>
+  <license>AGPL-3.0</license>
+  <maintainer>
+    <author>Lighthouse Consulting and Design</author>
+    <email>dev@lcdservices.biz</email>
+  </maintainer>
+  <urls>
+    <url desc="Main Extension Page">http://FIXME</url>
+    <url desc="Documentation">http://FIXME</url>
+    <url desc="Support">http://FIXME</url>
+    <url desc="Licensing">http://www.gnu.org/licenses/agpl-3.0.html</url>
+  </urls>
+  <releaseDate>2016-08-30</releaseDate>
+  <version>1.0</version>
+  <develStage>stable</develStage>
+  <compatibility>
+    <ver>4.7</ver>
+  </compatibility>
+  <comments></comments>
+  <civix>
+    <namespace>CRM/LCD/MoveContrib</namespace>
+  </civix>
+</extension>
