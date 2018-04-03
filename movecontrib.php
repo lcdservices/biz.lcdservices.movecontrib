@@ -122,36 +122,6 @@ function movecontrib_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
   _movecontrib_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
 
-/**
- * Functions below this ship commented out. Uncomment as required.
- *
-
-/**
- * Implements hook_civicrm_preProcess().
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_preProcess
- *
-function movecontrib_civicrm_preProcess($formName, &$form) {
-
-} // */
-
-/**
- * Implements hook_civicrm_navigationMenu().
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_navigationMenu
- *
-function movecontrib_civicrm_navigationMenu(&$menu) {
-  _movecontrib_civix_insert_navigation_menu($menu, NULL, array(
-    'label' => ts('The Page', array('domain' => 'biz.lcdservices.movecontrib')),
-    'name' => 'the_page',
-    'url' => 'civicrm/the-page',
-    'permission' => 'access CiviReport,access CiviContribute',
-    'operator' => 'OR',
-    'separator' => 0,
-  ));
-  _movecontrib_civix_navigationMenu($menu);
-} // */
-
 function movecontrib_civicrm_searchColumns($objectName, &$headers, &$rows, &$selector) {
   /*Civi::log()->debug('movecontrib_civicrm_searchColumns', array(
     'objectName' => $objectName,
@@ -175,5 +145,20 @@ function movecontrib_civicrm_searchColumns($objectName, &$headers, &$rows, &$sel
         $row['action'] = str_replace('</span>', $urlLink.'</span>', $row['action']);
       }
     }
+  }
+}
+
+function movecontrib_civicrm_searchTasks($objectType, &$tasks) {
+  /*Civi::log()->debug('movecontrib_civicrm_searchTasks', array(
+    '$objectType' => $objectType,
+    '$tasks' => $tasks,
+  ));*/
+
+  if ($objectType == 'contribution') {
+    $tasks[] = array(
+      'title' => 'Move contributions',
+      'class' => 'CRM_LCD_MoveContrib_Form_Task',
+      'result' => TRUE,
+    );
   }
 }

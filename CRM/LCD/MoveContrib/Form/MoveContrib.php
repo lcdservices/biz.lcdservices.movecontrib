@@ -9,6 +9,17 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_LCD_MoveContrib_Form_MoveContrib extends CRM_Core_Form {
 
+  /**
+   * check permissions
+   */
+  public function preProcess() {
+    //check for delete
+    if (!CRM_Core_Permission::checkActionPermission('CiviContribute', CRM_Core_Action::UPDATE)) {
+      CRM_Core_Error::fatal(ts('You do not have permission to access this page.'));
+    }
+    parent::preProcess();
+  }
+
   public function buildQuickForm() {
     $this->_contributionId = CRM_Utils_Request::retrieve('id', 'Positive', $this);
 
@@ -17,10 +28,10 @@ class CRM_LCD_MoveContrib_Form_MoveContrib extends CRM_Core_Form {
       'return' => 'contact_id',
     ));
 
-    //get current client name.
-    $this->assign('currentClientName', CRM_Contact_BAO_Contact::displayName($this->_contactId));
+    //get current contact name.
+    $this->assign('currentContactName', CRM_Contact_BAO_Contact::displayName($this->_contactId));
 
-    $this->addEntityRef('change_client_id', ts('Select Contact'));
+    $this->addEntityRef('change_contact_id', ts('Select Contact'));
     $this->add('hidden', 'contact_id', '', array('id' => 'contact_id'));
     $this->add('hidden', 'contribution_id', $this->_contributionId, array('id' => 'contribution_id'));
     $this->add('hidden', 'current_contact_id', $this->_contactId, array('id' => 'current_contact_id'));
@@ -45,41 +56,19 @@ class CRM_LCD_MoveContrib_Form_MoveContrib extends CRM_Core_Form {
     //Civi::log()->debug('postProcess', array('values' => $values));
 
     $params = array(
-      'change_client_id' => $values['change_client_id'],
-      'contact_id' => $values['change_client_id'],
+      'change_contact_id' => $values['change_contact_id'],
+      'contact_id' => $values['change_contact_id'],
       'contribution_id' => $values['contribution_id'],
       'current_contact_id' => $values['current_contact_id'],
     );
-    $id = array('contribution' => $values['contribution_id']);
-    $contribution = CRM_Contribute_BAO_Contribution::create($params, $id);
 
-    // record activity for moving contribution
-    if ($contribution) {
-      $subject = "Contribution #{$values['contribution_id']} Moved";
-      $details = "Contribution #{$values['contribution_id']} was moved from contact #{$values['current_contact_id']} to contact #{$values['change_client_id']}.";
-      $activityTypeID = CRM_Core_OptionGroup::getValue('activity_type',
-        'contribution_reassignment',
-        'name'
-      );
-      $activityParams = array(
-        'source_contact_id' => $values['current_contact_id'],
-        'activity_type_id' => $activityTypeID,
-        'activity_date_time' => date('YmdHis'),
-        'subject' => $subject,
-        'details' => $details,
-        'status_id' => 2,
-      );
+    $result = CRM_LCD_MoveContrib_BAO_MoveContrib::moveContribution($params);
 
-      $session = CRM_Core_Session::singleton();
-      $id = $session->get('userID');
-
-      if ($id) {
-        $activityParams['source_contact_id'] = $id;
-        $activityParams['target_contact_id'][] = $values['current_contact_id'];
-        $activityParams['target_contact_id'][] = $values['change_client_id'];
-      }
-
-      CRM_Activity_BAO_Activity::create($activityParams);
+    if ($result) {
+      CRM_Core_Session::setStatus(ts('Contribution moved successfully.'), ts('Moved'), 'success');
+    }
+    else {
+      CRM_Core_Session::setStatus(ts('Unable to move contribution.'), ts('Error'), 'error');
     }
 
     parent::postProcess();
