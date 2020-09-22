@@ -7,7 +7,8 @@ class CRM_LCD_MoveContrib_BAO_MoveContrib {
 
   static function moveContribution($params) {
     $id = array('contribution' => $params['contribution_id']);
-    $contribution = CRM_Contribute_BAO_Contribution::create($params, $id);
+    $params['id'] = $params['contribution_id'];
+    $contribution = CRM_Contribute_BAO_Contribution::create($params);
 
     // record activity for moving contribution
     if ($contribution) {
