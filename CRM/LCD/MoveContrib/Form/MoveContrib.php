@@ -58,7 +58,7 @@ class CRM_LCD_MoveContrib_Form_MoveContrib extends CRM_Core_Form {
     $params = array(
       'change_contact_id' => $values['change_contact_id'],
       'contact_id' => $values['change_contact_id'],
-      'contribution_id' => $values['contribution_id'],
+      'id' => $values['contribution_id'],
       'current_contact_id' => $values['current_contact_id'],
     );
 
