@@ -21,7 +21,7 @@ class CRM_LCD_MoveContrib_BAO_MoveContrib {
         ON ceftc.financial_trxn_id = cft.id
       SET cfi.contact_id = %1
       WHERE ceftc.entity_table = 'civicrm_contribution'
-        AND ceftc.entity_id = %1
+        AND ceftc.entity_id = %2
     ";
     CRM_Core_DAO::executeQuery($sql, [
       1 => [$params['change_contact_id'], 'Positive'],

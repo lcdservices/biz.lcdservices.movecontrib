@@ -78,7 +78,7 @@ function movecontrib_civicrm_searchColumns($objectName, &$headers, &$rows, &$sel
       //we want to inject our option at the end, regardless, so we look for the existence
       //of a <ul> tag and adjust our injection accordingly
       $url = CRM_Utils_System::url('civicrm/movecontrib', "reset=1&id={$row['contribution_id']}");
-      $urlLink = "<a href='{$url}' class='action-item crm-hover-button medium-popup move-contrib'>Move</a>";
+      $urlLink = "<a href='{$url}' class='action-item crm-hover-button medium-popup move-contrib'>Move Contribution</a>";
       if (strpos($row['action'], '</ul>') !== FALSE) {
         $row['action'] = str_replace('</ul></span>', '<li>'.$urlLink.'</li></ul></span>', $row['action']);
       }
