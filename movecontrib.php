@@ -26,7 +26,6 @@ function movecontrib_civicrm_install() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_uninstall
  */
 function movecontrib_civicrm_uninstall() {
-  _movecontrib_civix_civicrm_uninstall();
 }
 
 /**
@@ -44,7 +43,6 @@ function movecontrib_civicrm_enable() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_disable
  */
 function movecontrib_civicrm_disable() {
-  _movecontrib_civix_civicrm_disable();
 }
 
 /**
@@ -60,7 +58,7 @@ function movecontrib_civicrm_disable() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_upgrade
  */
 function movecontrib_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
-  return _movecontrib_civix_civicrm_upgrade($op, $queue);
+  return;
 }
 
 function movecontrib_civicrm_searchColumns($objectName, &$headers, &$rows, &$selector) {
@@ -119,7 +117,6 @@ function movecontrib_civicrm_permission(&$permissions) {
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_postInstall
  */
 function movecontrib_civicrm_postInstall() {
-  _movecontrib_civix_civicrm_postInstall();
 }
 
 /**
