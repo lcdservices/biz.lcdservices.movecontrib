@@ -33,10 +33,7 @@ class CRM_LCD_MoveContrib_BAO_MoveContrib {
       $subject = "Contribution #{$params['contribution_id']} Moved";
       $details = "Contribution #{$params['contribution_id']} was moved from contact #{$params['current_contact_id']} to contact #{$params['change_contact_id']}.";
 
-      $activityTypeID = CRM_Core_OptionGroup::getValue('activity_type',
-        'contribution_reassignment',
-        'name'
-      );
+      $activityTypeID = \CRM_Core_PseudoConstant::getKey('CRM_Activity_BAO_Activity', 'activity_type_id', 'contribution_reassignment');
 
       $activityParams = [
         'source_contact_id' => $params['current_contact_id'],
