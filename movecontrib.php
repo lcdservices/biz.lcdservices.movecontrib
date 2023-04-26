@@ -125,5 +125,4 @@ function movecontrib_civicrm_postInstall() {
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_entityTypes
  */
 function movecontrib_civicrm_entityTypes(&$entityTypes) {
-  _movecontrib_civix_civicrm_entityTypes($entityTypes);
 }
