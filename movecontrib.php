@@ -21,44 +21,12 @@ function movecontrib_civicrm_install() {
 }
 
 /**
- * Implements hook_civicrm_uninstall().
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_uninstall
- */
-function movecontrib_civicrm_uninstall() {
-}
-
-/**
  * Implements hook_civicrm_enable().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_enable
  */
 function movecontrib_civicrm_enable() {
   _movecontrib_civix_civicrm_enable();
-}
-
-/**
- * Implements hook_civicrm_disable().
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_disable
- */
-function movecontrib_civicrm_disable() {
-}
-
-/**
- * Implements hook_civicrm_upgrade().
- *
- * @param $op string, the type of operation being performed; 'check' or 'enqueue'
- * @param $queue CRM_Queue_Queue, (for 'enqueue') the modifiable list of pending up upgrade tasks
- *
- * @return mixed
- *   Based on op. for 'check', returns array(boolean) (TRUE if upgrades are pending)
- *                for 'enqueue', returns void
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_upgrade
- */
-function movecontrib_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
-  return;
 }
 
 function movecontrib_civicrm_searchColumns($objectName, &$headers, &$rows, &$selector) {
@@ -109,20 +77,4 @@ function movecontrib_civicrm_searchTasks($objectType, &$tasks) {
 function movecontrib_civicrm_permission(&$permissions) {
   $prefix = ts('Move Contributions') . ': '; // name of extension or module
   $permissions['allow Move Contribution'] = $prefix . ts('allow Move Contribution');
-}
-
-/**
- * Implements hook_civicrm_postInstall().
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_postInstall
- */
-function movecontrib_civicrm_postInstall() {
-}
-
-/**
- * Implements hook_civicrm_entityTypes().
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_entityTypes
- */
-function movecontrib_civicrm_entityTypes(&$entityTypes) {
 }

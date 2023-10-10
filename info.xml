@@ -26,7 +26,7 @@
   </civix>
   <mixins>
     <mixin>menu-xml@1.0.0</mixin>
-    <mixin>smarty-v2@1.0.1</mixin>
+    <mixin>smarty-v2@1.0.0</mixin>
   </mixins>
   <classloader>
     <psr0 prefix="CRM_" path="."/>
