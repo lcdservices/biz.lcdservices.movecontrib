@@ -12,55 +12,58 @@ class CRM_LCD_MoveContrib_Form_MoveContrib extends CRM_Core_Form {
   /**
    * check permissions
    */
-  public function preProcess() {
+  public function preProcess(): void {
     //check for delete
     if (!CRM_Core_Permission::checkActionPermission('CiviContribute', CRM_Core_Action::UPDATE)) {
-      CRM_Core_Error::fatal(ts('You do not have permission to access this page.'));
+      CRM_Core_Error::statusBounce(ts('You do not have permission to access this page.'));
     }
     parent::preProcess();
   }
 
-  public function buildQuickForm() {
-    $this->_contributionId = CRM_Utils_Request::retrieve('id', 'Positive', $this);
+  /**
+   * @throws \CRM_Core_Exception
+   */
+  public function buildQuickForm(): void {
+    $contributionID = CRM_Utils_Request::retrieve('id', 'Positive', $this);
 
-    $this->_contactId = civicrm_api3('contribution', 'getvalue', array(
-      'id' => $this->_contributionId,
+    $contactID = civicrm_api3('contribution', 'getvalue', [
+      'id' => $contributionID,
       'return' => 'contact_id',
-    ));
+    ]);
 
     //get current contact name.
-    $this->assign('currentContactName', CRM_Contact_BAO_Contact::displayName($this->_contactId));
+    $this->assign('currentContactName', CRM_Contact_BAO_Contact::displayName($contactID));
 
     $this->addEntityRef('change_contact_id', ts('Select Contact'));
-    $this->add('hidden', 'contact_id', '', array('id' => 'contact_id'));
-    $this->add('hidden', 'contribution_id', $this->_contributionId, array('id' => 'contribution_id'));
-    $this->add('hidden', 'current_contact_id', $this->_contactId, array('id' => 'current_contact_id'));
-    $this->assign('contactId', $this->_contactId);
+    $this->add('hidden', 'contact_id', '', ['id' => 'contact_id']);
+    $this->add('hidden', 'contribution_id', $contributionID, ['id' => 'contribution_id']);
+    $this->add('hidden', 'current_contact_id', $contactID, ['id' => 'current_contact_id']);
+    $this->assign('contactId', $contactID);
 
     // export form elements
     $this->assign('elementNames', $this->getRenderableElementNames());
 
-    $this->addButtons(array(
-      array(
+    $this->addButtons([
+      [
         'type' => 'submit',
         'name' => ts('Submit'),
         'isDefault' => TRUE,
-      ),
-    ));
+      ],
+    ]);
 
     parent::buildQuickForm();
   }
 
-  public function postProcess() {
+  public function postProcess(): void {
     $values = $this->exportValues();
     //Civi::log()->debug('postProcess', array('values' => $values));
 
-    $params = array(
+    $params = [
       'change_contact_id' => $values['change_contact_id'],
       'contact_id' => $values['change_contact_id'],
       'contribution_id' => $values['contribution_id'],
       'current_contact_id' => $values['current_contact_id'],
-    );
+    ];
 
     $result = CRM_LCD_MoveContrib_BAO_MoveContrib::moveContribution($params);
 
@@ -79,12 +82,12 @@ class CRM_LCD_MoveContrib_Form_MoveContrib extends CRM_Core_Form {
    *
    * @return array (string)
    */
-  public function getRenderableElementNames() {
+  public function getRenderableElementNames(): array {
     // The _elements list includes some items which should not be
     // auto-rendered in the loop -- such as "qfKey" and "buttons".  These
     // items don't have labels.  We'll identify renderable by filtering on
     // the 'label'.
-    $elementNames = array();
+    $elementNames = [];
     foreach ($this->_elements as $element) {
       /** @var HTML_QuickForm_Element $element */
       $label = $element->getLabel();
@@ -94,4 +97,5 @@ class CRM_LCD_MoveContrib_Form_MoveContrib extends CRM_Core_Form {
     }
     return $elementNames;
   }
+
 }

@@ -41,10 +41,10 @@ class CRM_LCD_MoveContrib_Form_Task extends CRM_Contribute_Form_Task {
   /**
    * Build all the data structures needed to build the form.
    */
-  public function preProcess() {
+  public function preProcess(): void {
     //check for delete
     if (!CRM_Core_Permission::checkActionPermission('CiviContribute', CRM_Core_Action::UPDATE)) {
-      CRM_Core_Error::fatal(ts('You do not have permission to access this page.'));
+      CRM_Core_Error::statusBounce(ts('You do not have permission to access this page.'));
     }
     parent::preProcess();
   }
@@ -52,7 +52,7 @@ class CRM_LCD_MoveContrib_Form_Task extends CRM_Contribute_Form_Task {
   /**
    * Build the form object.
    */
-  public function buildQuickForm() {
+  public function buildQuickForm(): void {
     $this->addEntityRef('change_contact_id', ts('Select Contact'));
     $count = count($this->_contributionIds);
     $this->assign('count', $count);
@@ -60,13 +60,13 @@ class CRM_LCD_MoveContrib_Form_Task extends CRM_Contribute_Form_Task {
     // export form elements
     $this->assign('elementNames', $this->getRenderableElementNames());
 
-    $this->addButtons(array(
-      array(
+    $this->addButtons([
+      [
         'type' => 'submit',
         'name' => ts('Submit'),
         'isDefault' => TRUE,
-      ),
-    ));
+      ],
+    ]);
 
     parent::buildQuickForm();
   }
@@ -74,26 +74,27 @@ class CRM_LCD_MoveContrib_Form_Task extends CRM_Contribute_Form_Task {
   /**
    * Process the form after the input has been submitted and validated.
    */
-  public function postProcess() {
+  public function postProcess(): void {
     $moved = $failed = 0;
     $values = $this->exportValues();
     //Civi::log()->debug('postProcess', array('values' => $values));
 
     foreach ($this->_contributionIds as $contributionId) {
       try {
-        $currentContactId = civicrm_api3('contribution', 'getvalue', array(
+        $currentContactId = civicrm_api3('Contribution', 'getvalue', [
           'id' => $contributionId,
           'return' => 'contact_id',
-        ));
+        ]);
       }
-      catch (CiviCRM_API3_Exception $e) {}
+      catch (CiviCRM_API3_Exception $e) {
+      }
 
-      $params = array(
+      $params = [
         'change_contact_id' => $values['change_contact_id'],
         'contact_id' => $values['change_contact_id'],
         'contribution_id' => $contributionId,
         'current_contact_id' => $currentContactId,
-      );
+      ];
 
       if (CRM_LCD_MoveContrib_BAO_MoveContrib::moveContribution($params)) {
         $moved++;
@@ -104,17 +105,17 @@ class CRM_LCD_MoveContrib_Form_Task extends CRM_Contribute_Form_Task {
     }
 
     if ($moved) {
-      CRM_Core_Session::setStatus(ts('%count contribution moved.', array(
+      CRM_Core_Session::setStatus(ts('%count contribution moved.', [
         'plural' => '%count contributions moved.',
-        'count' => $moved
-      )), ts('Moved'), 'success');
+        'count' => $moved,
+      ]), ts('Moved'), 'success');
     }
 
     if ($failed) {
-      CRM_Core_Session::setStatus(ts('1 could not be moved.', array(
+      CRM_Core_Session::setStatus(ts('1 could not be moved.', [
         'plural' => '%count could not be moved.',
-        'count' => $failed
-      )), ts('Error'), 'error');
+        'count' => $failed,
+      ]), ts('Error'), 'error');
     }
 
     parent::postProcess();
@@ -128,12 +129,12 @@ class CRM_LCD_MoveContrib_Form_Task extends CRM_Contribute_Form_Task {
    *
    * @return array (string)
    */
-  public function getRenderableElementNames() {
+  public function getRenderableElementNames(): array {
     // The _elements list includes some items which should not be
     // auto-rendered in the loop -- such as "qfKey" and "buttons".  These
     // items don't have labels.  We'll identify renderable by filtering on
     // the 'label'.
-    $elementNames = array();
+    $elementNames = [];
     foreach ($this->_elements as $element) {
       /** @var HTML_QuickForm_Element $element */
       $label = $element->getLabel();
@@ -143,4 +144,5 @@ class CRM_LCD_MoveContrib_Form_Task extends CRM_Contribute_Form_Task {
     }
     return $elementNames;
   }
+
 }
