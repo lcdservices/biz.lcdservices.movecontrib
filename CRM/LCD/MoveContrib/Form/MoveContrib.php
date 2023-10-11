@@ -15,12 +15,12 @@ class CRM_LCD_MoveContrib_Form_MoveContrib extends CRM_Core_Form {
   public function preProcess() {
     //check for delete
     if (!CRM_Core_Permission::checkActionPermission('CiviContribute', CRM_Core_Action::UPDATE)) {
-      CRM_Core_Error::fatal(ts('You do not have permission to access this page.'));
+      CRM_Core_Error::statusBounce(ts('You do not have permission to access this page.'));
     }
     parent::preProcess();
   }
 
-  public function buildQuickForm() {
+  public function buildQuickForm(): void {
     $this->_contributionId = CRM_Utils_Request::retrieve('id', 'Positive', $this);
 
     $this->_contactId = civicrm_api3('contribution', 'getvalue', array(
