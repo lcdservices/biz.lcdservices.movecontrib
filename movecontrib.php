@@ -31,10 +31,6 @@ function movecontrib_civicrm_enable() {
 }
 
 function movecontrib_civicrm_searchTasks($objectType, &$tasks) {
-  /*Civi::log()->debug('movecontrib_civicrm_searchTasks', array(
-    '$objectType' => $objectType,
-    '$tasks' => $tasks,
-  ));*/
 
   if ($objectType === 'contribution' && CRM_Core_Permission::check('allow Move Contribution')) {
     $tasks[] = [
@@ -47,6 +43,7 @@ function movecontrib_civicrm_searchTasks($objectType, &$tasks) {
       'name' => E::ts('Move Contribution'),
       'url' => 'civicrm/contribute/task?reset=1&task_item=move',
       'key' => 'move',
+      'weight' => 130,
     ];
   }
 }
