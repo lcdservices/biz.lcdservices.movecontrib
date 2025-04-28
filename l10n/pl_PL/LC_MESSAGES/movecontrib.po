@@ -15,6 +15,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.0.1\n"
 
+msgid "Moved"
+msgstr "Przeniesione"
+
 msgid "Move Contribution"
 msgstr "Przenieś transakcję"
 
@@ -46,7 +49,10 @@ msgid "%count contributions moved."
 msgstr "%count transakcji przeniesionych."
 
 msgid "1 could not be moved."
-msgstr "1 nie mogła zostać przeniesiona"
+msgstr "1 nie mogła zostać przeniesiona."
 
 msgid "%count could not be moved."
-msgstr "%count nie mogło zostać przeniesionych"
+msgstr "%count nie mogło zostać przeniesionych."
+
+msgid "%1 contribution(s) will be moved."
+msgstr "%1 transakcji zostanie przeniesionych."
